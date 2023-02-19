@@ -9,7 +9,7 @@ int main(void)
 	int i;
 
 	for (i = 0 ; i < 10 ; i++)
-		putchar(i + 'O');
-	putchar('\n');
+		printf(i + 'O');
+	printf('\n');
 	return (0);
 }
