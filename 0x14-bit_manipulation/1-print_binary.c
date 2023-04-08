@@ -14,20 +14,12 @@ void print_binary(unsigned long int n)
 
 	while (n > 0)
 	{
-		binary[i] = n % 2 + '0';
-		n /= 2;
+		binary[i] = n % 2;
+		n = n / 2;
 		i++;
 	}
 	for (j = i - 1; j >= 0; j--)
 	{
-		putchar(binary[j] + 0);
+		putchar(binary[j] + '0');
 	}
 }
-/**
- * int main()
-{
-	int num = 42;
-	print_binary(n);
-	return 0;
-}
-*/
