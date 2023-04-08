@@ -27,7 +27,9 @@ void print_binary(unsigned long int n)
 			binary[i]++;
 		}
 		else
+		{
 			_putchar('0');
+		}
 	}
 	_putchar('0');
 }
