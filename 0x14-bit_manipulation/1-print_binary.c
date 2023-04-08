@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "main.h"
 
 /**
@@ -10,6 +9,7 @@ void print_binary(unsigned long int n)
 {
 	int i = 0;
 	int j;
+	unsigned long int num;
 	int binary[32];
 
 	while (n > 0)
@@ -20,6 +20,14 @@ void print_binary(unsigned long int n)
 	}
 	for (j = i - 1; j >= 0; j--)
 	{
-		putchar(binary[j] + '0');
+		num = n >> j;
+		if (num & 1)
+		{
+			_putchar('1');
+			i++;
+		}
+		else
+			_putchar('0');
 	}
+	_putchar('0');
 }
