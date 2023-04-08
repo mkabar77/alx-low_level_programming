@@ -11,7 +11,7 @@
 unsigned int binary_to_uint(const char *b)
 {
 	unsigned int decimal = 0;
-	/*int digit_position = 0;*/
+	int digit_position = 0;
 	int i;
 
 	if (b == NULL)
@@ -28,8 +28,8 @@ unsigned int binary_to_uint(const char *b)
 	}
 	for (i = 0; b[i] != '\0'; i++)
 	{
-		decimal += 2 * decimal + (b[i] - '0');
-		/*digit_position++;*/
+		decimal = 2 * decimal + (b[i] - '0');
+		digit_position++;
 	}
 	return (decimal);
 }
