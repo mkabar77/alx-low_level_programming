@@ -21,7 +21,6 @@ void print_binary(unsigned long int n)
 
 	for (i = index - 1; i >= 0; i--)
 	{
-		_putchar('1');
 		binary[index] = binary[i] + '0';
 	}
 	_putchar ('0');
