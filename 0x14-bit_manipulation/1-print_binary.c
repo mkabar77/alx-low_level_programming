@@ -5,9 +5,10 @@
  * @n: number represented in binary
  *
  */
+
 void print_binary(unsigned long int n)
 {
-	int binary[32];
+	unsigned long int binary[32];
 	int index = 0;
 	int i = 0;
 
