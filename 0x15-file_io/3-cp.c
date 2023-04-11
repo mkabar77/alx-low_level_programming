@@ -1,6 +1,6 @@
 #include <errno.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -14,38 +14,65 @@
  */
 int main(int argc, char *argv[])
 {
-	char *buffer[1024];
-	int file_from, file_to, bytes_read, w;
+	char *buffer;
+	int file_from, file_to, bytes_read;
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n"), exit(97);
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		exit(97);
 	}
+
 	file_from = open(argv[1], O_RDONLY);
-	bytes_read = read(file_from, buffer[1024]);
+	if (file_from == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s: %s\n", argv[1],strerror(errno));
+		exit(98);
+	}
+
 	file_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (file_to == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't write to %s: %s\n", argv[2], strerror(errno));
+		close(file_from);
+		exit(99);
+	}
 
-	do {
-		if (file_from == -1 || bytes_read == -1)
-			{
-				dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-				free(buffer);
-				exit(98);
-			}
+	buffer = malloc(1024);
+	if (buffer == NULL)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't allocate memory\n");
+		close(file_from);
+		close(file_to);
+		exit(100);
+	}
 
-		w = write(file_to, buffer, bytes_read);
-		if (file_to == -1 || w == -1)
-			{
-				dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-				free(buffer);
-				exit(99);
-			}
-
+	do
+	{
 		bytes_read = read(file_from, buffer, 1024);
-		file_to = open(argv[2], O_WRONLY | O_APPEND);
+		if (bytes_read == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s: %s\n", argv[1], strerror(errno));
+                exit(98);
+        	}
+
+		if (file_to == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't write to %s: %s\n", argv[2], strerror(errno));
+			close(file_from);
+			exit(99);
+		}
+
+		buffer = malloc(1024);
+		if (buffer == NULL)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't allocate memory\n");
+			close(file_from);
+			close(file_to);
+			exit(100);
+		}
 	}
 		while (bytes_read > 0);
 			free(buffer);
 		return (0);
 }
-
