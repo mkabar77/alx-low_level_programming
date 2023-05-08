@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 {
 	int fd, i;
 	Elf32_Ehdr header;
-	char buf[BUF_SIZE];
+	/*char buf[BUF_SIZE];*/
 
 	if (argc != 2)
 		display_error("Usage: elf_header elf_filename");
@@ -154,8 +154,7 @@ int main(int argc, char **argv)
 			printf("<unknown: %x>\n", header.e_type);
 			break;
 	}
-	printf(" Entry point address:	%#|x\n",(unsigned long)header.e_entry);
+	printf("Entry point address:	%#lx\n", (unsigned long int )header.e_entry);
 			close(fd);
-			return(0);
+			return (0);
 }
-
